@@ -57,7 +57,7 @@ public class Main extends JFrame implements ActionListener {
         menuBar.add(helpMenu);
 
         this.setSize(800, 800);
-
+        textField.addCurrentDate();
         this.setVisible(true);
     }
 
@@ -77,6 +77,7 @@ public class Main extends JFrame implements ActionListener {
             }
         } else if (source == newItem){
             textField.clearField();
+            textField.addCurrentDate();
 
         } else if (source == exitItem) {
             System.out.println("Quitting ...");

@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class TextFieldPanel extends JPanel {
     public JTextPane textField = new JTextPane();
@@ -46,8 +48,13 @@ public class TextFieldPanel extends JPanel {
         }catch (Exception ex){
             ex.printStackTrace();
         }
-
     }
+    public void addCurrentDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        textField.setText(dtf.format(now) + "\n");
+    }
+
 
 
 }
