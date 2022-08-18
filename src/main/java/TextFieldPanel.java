@@ -55,6 +55,14 @@ public class TextFieldPanel extends JPanel {
         textField.setText(dtf.format(now) + "\n");
     }
 
+    public String search(String q) {
+        if (textField.getText().contains(q)) {
+            return String.valueOf(textField.getText().indexOf(q));
+        } else {
+            return "DNF";
+        }
+    }
+
 
 
 }

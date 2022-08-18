@@ -82,7 +82,16 @@ public class Main extends JFrame implements ActionListener {
         } else if (source == exitItem) {
             System.out.println("Quitting ...");
             System.exit(0);
+        }else if (source == searchItem) {
+            String searchQuery = JOptionPane.showInputDialog(this, "Search: ");
+            String result = textField.search(searchQuery);
+            if (!result.equals("DNF")) {
+                System.out.println(result);
+            } else if (result.equals("DNF")){
+                JOptionPane.showMessageDialog(this, "The following search could not be found: " + searchQuery);
+            }
         }
+
         super.repaint();
 
     }
