@@ -1,9 +1,13 @@
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main extends JFrame implements ActionListener {
 
@@ -84,10 +88,23 @@ public class Main extends JFrame implements ActionListener {
             System.exit(0);
         }else if (source == searchItem) {
             String searchQuery = JOptionPane.showInputDialog(this, "Search: ");
-            String result = textField.search(searchQuery);
-            if (!result.equals("DNF")) {
-                System.out.println(result);
-            } else if (result.equals("DNF")){
+            ArrayList<Integer> results = textField.search(searchQuery);
+            if (!results.get(0).equals(-1)) {
+                for(int index : results){
+                    Highlighter highlighter = textField.textField.getHighlighter();
+                    HighlightPainter painter =
+                            new DefaultHighlighter.DefaultHighlightPainter(Color.cyan);
+                    int p1 = index + searchQuery.length();
+                    try {
+                        highlighter.addHighlight(index, p1, painter);
+                        JOptionPane.showMessageDialog(this, searchQuery + " was found " + results.size() + " times");
+                    } catch (BadLocationException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            } else {
                 JOptionPane.showMessageDialog(this, "The following search could not be found: " + searchQuery);
             }
         }

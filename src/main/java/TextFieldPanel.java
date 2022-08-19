@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class TextFieldPanel extends JPanel {
     public JTextPane textField = new JTextPane();
@@ -55,12 +56,18 @@ public class TextFieldPanel extends JPanel {
         textField.setText(dtf.format(now) + "\n");
     }
 
-    public String search(String q) {
-        if (textField.getText().contains(q)) {
-            return String.valueOf(textField.getText().indexOf(q));
-        } else {
-            return "DNF";
+    public ArrayList<Integer> search(String q) {
+        ArrayList<Integer> indexs = new ArrayList<>();
+        int index = textField.getText().indexOf(q);
+        while (index >=0){
+            indexs.add(index);
+            index = textField.getText().indexOf(q, index+q.length())   ;
         }
+
+        if (indexs.size() == 0) {
+            indexs.add(-1);
+        }
+        return indexs;
     }
 
 
