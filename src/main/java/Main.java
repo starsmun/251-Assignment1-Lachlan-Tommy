@@ -13,7 +13,7 @@ public class Main extends JFrame implements ActionListener {
 
     private static JMenuItem newItem, openItem, saveItem, printItem,addDate, searchItem, exitItem;
     private static final JMenuBar menuBar = new JMenuBar();
-    private static TextFieldPanel textField = new TextFieldPanel();
+    private static final TextFieldPanel textField = new TextFieldPanel();
 
     public Main() {
         super("Test Editor");
@@ -96,24 +96,26 @@ public class Main extends JFrame implements ActionListener {
 
         }else if (source == searchItem) {
             String searchQuery = JOptionPane.showInputDialog(this, "Search: ");
-            ArrayList<Integer> results = textField.search(searchQuery);
-            if (!results.get(0).equals(-1)) {
-                for(int index : results){
-                    Highlighter highlighter = textField.textField.getHighlighter();
-                    HighlightPainter painter =
-                            new DefaultHighlighter.DefaultHighlightPainter(Color.cyan);
-                    int p1 = index + searchQuery.length();
-                    try {
-                        highlighter.addHighlight(index, p1, painter);
-                        JOptionPane.showMessageDialog(this, searchQuery + " was found " + results.size() + " times");
-                    } catch (BadLocationException e) {
-                        e.printStackTrace();
+            if(searchQuery != null) {
+                ArrayList<Integer> results = textField.search(searchQuery);
+                if (!results.get(0).equals(-1)) {
+                    for (int index : results) {
+                        Highlighter highlighter = textField.textField.getHighlighter();
+                        HighlightPainter painter =
+                                new DefaultHighlighter.DefaultHighlightPainter(Color.cyan);
+                        int p1 = index + searchQuery.length();
+                        try {
+                            highlighter.addHighlight(index, p1, painter);
+                            JOptionPane.showMessageDialog(this, searchQuery + " was found " + results.size() + " times");
+                        } catch (BadLocationException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
-
-
+                } else {
+                    JOptionPane.showMessageDialog(this, "The following search could not be found: " + searchQuery);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "The following search could not be found: " + searchQuery);
             }
         }
 
