@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Main extends JFrame implements ActionListener {
 
-    private static JMenuItem newItem, openItem, saveItem, printItem, searchItem, exitItem;
+    private static JMenuItem newItem, openItem, saveItem, printItem,addDate, searchItem, exitItem;
     private static final JMenuBar menuBar = new JMenuBar();
     private static TextFieldPanel textField = new TextFieldPanel();
 
@@ -49,19 +49,21 @@ public class Main extends JFrame implements ActionListener {
         exitItem.addActionListener(this);
         fileMenu.add(exitItem);
 
+        JMenu manageMenu = new JMenu("Manage");
+        menuBar.add(manageMenu);
 
-        JMenu viewMenu = new JMenu("View");
-        menuBar.add(viewMenu);
+        addDate = new JMenuItem("Add Date");
+        addDate.addActionListener(this);
+        manageMenu.add(addDate);
 
         searchItem = new JMenuItem("Search");
         searchItem.addActionListener(this);
-        viewMenu.add(searchItem);
+        manageMenu.add(searchItem);
 
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
 
         this.setSize(800, 800);
-        textField.addCurrentDate();
         this.setVisible(true);
     }
 
@@ -77,15 +79,21 @@ public class Main extends JFrame implements ActionListener {
             int retVal = chooser.showOpenDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
                 File myFile = chooser.getSelectedFile();
-                textField.FileOpener(myFile);
+                textField.openFile(myFile);
             }
-        } else if (source == newItem){
+        } else if (source == newItem) {
             textField.clearField();
+
+        } else if (source == addDate) {
             textField.addCurrentDate();
+
+        } else if (source == saveItem) {
+            textField.saveToFile();
 
         } else if (source == exitItem) {
             System.out.println("Quitting ...");
             System.exit(0);
+
         }else if (source == searchItem) {
             String searchQuery = JOptionPane.showInputDialog(this, "Search: ");
             ArrayList<Integer> results = textField.search(searchQuery);

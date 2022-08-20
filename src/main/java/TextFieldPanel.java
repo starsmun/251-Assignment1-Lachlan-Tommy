@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
 import java.io.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,23 @@ public class TextFieldPanel extends JPanel {
 
     public TextFieldPanel(){
         JScrollPane jsp = new JScrollPane(textField);
+
+        JPopupMenu menuRC = new JPopupMenu();
+        textField.setComponentPopupMenu(menuRC);
+
+        Action copyOption = new DefaultEditorKit.CopyAction();
+        copyOption.putValue(Action.NAME, "Copy");
+
+        Action pasteOption = new DefaultEditorKit.PasteAction();
+        pasteOption.putValue(Action.NAME, "Paste");
+
+        Action cutOption = new DefaultEditorKit.CutAction();
+        cutOption.putValue(Action.NAME, "Cut");
+
+        menuRC.add(copyOption);
+        menuRC.add(pasteOption);
+        menuRC.add(cutOption);
+
         this.add(jsp);
     }
 
@@ -18,7 +36,7 @@ public class TextFieldPanel extends JPanel {
 
     }
 
-    public void FileOpener(File textFile)
+    public void openFile(File textFile)
     {
         try{
             FileReader reader = new FileReader(textFile);
@@ -34,9 +52,13 @@ public class TextFieldPanel extends JPanel {
     public void clearField(){
         textField.setText("");
     }
+
     public void saveToFile(){
         try{
             JFileChooser chooser = new JFileChooser("./");
+            chooser.setDialogTitle("Save");
+
+
 
             int retVal = chooser.showOpenDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
@@ -53,7 +75,7 @@ public class TextFieldPanel extends JPanel {
     public void addCurrentDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        textField.setText(dtf.format(now) + "\n");
+        textField.setText(dtf.format(now) + "\n" + textField.getText());
     }
 
     public ArrayList<Integer> search(String q) {
