@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Main extends JFrame implements ActionListener {
 
-    private static JMenuItem newItem, openItem, saveItem, printItem,addDate, searchItem, exitItem;
+    private static JMenuItem newItem, openItem, saveItem, printItem, addDate, searchItem, exitItem, aboutItem;
     private static final JMenuBar menuBar = new JMenuBar();
     private static final TextFieldPanel textField = new TextFieldPanel();
 
@@ -63,6 +63,10 @@ public class Main extends JFrame implements ActionListener {
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
 
+        aboutItem = new JMenuItem("About");
+        aboutItem.addActionListener(this);
+        helpMenu.add(aboutItem);
+
         this.setSize(800, 800);
         this.setVisible(true);
     }
@@ -84,6 +88,11 @@ public class Main extends JFrame implements ActionListener {
         } else if (source == newItem) {
             textField.clearField();
 
+        }else if (source == aboutItem) {
+            JOptionPane.showMessageDialog(this,
+                    "Lachlan - 21005784. \n" +
+                            "Tommy - 21013898. \n" +
+                            "This text editor was made for assignment one for the course 159251. ");
         } else if (source == addDate) {
             textField.addCurrentDate();
 
