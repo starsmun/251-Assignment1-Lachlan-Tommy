@@ -1,5 +1,6 @@
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.ExceptionConverter;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfString;
@@ -98,8 +99,9 @@ public class TextFieldPanel extends JPanel {
     }
 
     public void savePDF() {
-        Document document = new Document();
+
         try{
+            Document document = new Document();
             JFileChooser chooser = new JFileChooser("./");
             chooser.setDialogTitle("Save");
             int retVal = chooser.showSaveDialog(this);
@@ -110,12 +112,8 @@ public class TextFieldPanel extends JPanel {
                 document.add(new Paragraph(textField.getText()));
             }
             document.close();
-        } catch (DocumentException de) {
-            System.err.println(de.getMessage());
-        } catch (java.io.IOException ioe) {
-           System.err.println(ioe.getMessage());
-        } catch (Exception ex){
-            ex.printStackTrace();
+        } catch (ExceptionConverter | DocumentException | IOException e) {
+            System.err.println(e.getMessage());
         }
 
     }
