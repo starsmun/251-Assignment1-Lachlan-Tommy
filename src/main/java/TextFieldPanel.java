@@ -110,8 +110,12 @@ public class TextFieldPanel extends JPanel {
                 document.add(new Paragraph(textField.getText()));
             }
             document.close();
-        }catch (DocumentException | java.io.IOException de) {
+        } catch (DocumentException de) {
             System.err.println(de.getMessage());
+        } catch (java.io.IOException ioe) {
+           System.err.println(ioe.getMessage());
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
 
     }
