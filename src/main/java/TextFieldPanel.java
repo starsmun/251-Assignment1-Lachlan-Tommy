@@ -1,3 +1,10 @@
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfWriter;
+
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
@@ -58,9 +65,7 @@ public class TextFieldPanel extends JPanel {
             JFileChooser chooser = new JFileChooser("./");
             chooser.setDialogTitle("Save");
 
-
-
-            int retVal = chooser.showOpenDialog(this);
+            int retVal = chooser.showSaveDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
                 FileWriter pw = new FileWriter (chooser.getSelectedFile() + ".txt");
                 textField.write(pw);
@@ -92,6 +97,22 @@ public class TextFieldPanel extends JPanel {
         return indexs;
     }
 
+    public void savePDF() {
+        Document document = new Document();
+        try{
+            JFileChooser chooser = new JFileChooser("./");
+            chooser.setDialogTitle("Save");
+            int retVal = chooser.showSaveDialog(this);
+            if (retVal == JFileChooser.APPROVE_OPTION) {
+                final PdfWriter instance = PdfWriter.getInstance(document, new FileOutputStream(chooser.getSelectedFile() + ".pdf"));
+                document.open();
+                instance.getInfo().put(PdfName.CREATOR, new PdfString(Document.getVersion()));
+                document.add(new Paragraph(textField.getText()));
+            }
+            document.close();
+        }catch (DocumentException | java.io.IOException de) {
+            System.err.println(de.getMessage());
+        }
 
-
+    }
 }

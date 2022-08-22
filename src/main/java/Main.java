@@ -1,3 +1,10 @@
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfName;
+import com.lowagie.text.pdf.PdfString;
+import com.lowagie.text.pdf.PdfWriter;
+
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
@@ -6,12 +13,12 @@ import javax.swing.text.Highlighter.HighlightPainter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Main extends JFrame implements ActionListener {
 
-    private static JMenuItem newItem, openItem, saveItem, printItem, addDate, searchItem, exitItem, aboutItem;
+    private static JMenuItem newItem, openItem, saveItem, printItem, addDate, searchItem, exitItem, aboutItem, pdfConvertItem;
     private static final JMenuBar menuBar = new JMenuBar();
     private static final TextFieldPanel textField = new TextFieldPanel();
 
@@ -44,6 +51,10 @@ public class Main extends JFrame implements ActionListener {
         printItem = new JMenuItem("Print");
         printItem.addActionListener(this);
         fileMenu.add(printItem);
+
+        pdfConvertItem = new JMenuItem("Convert to PDF");
+        pdfConvertItem.addActionListener(this);
+        fileMenu.add(pdfConvertItem);
 
         exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(this);
@@ -98,6 +109,9 @@ public class Main extends JFrame implements ActionListener {
 
         } else if (source == saveItem) {
             textField.saveToFile();
+
+        }else if (source == pdfConvertItem) {
+            textField.savePDF();
 
         } else if (source == exitItem) {
             System.out.println("Quitting ...");
