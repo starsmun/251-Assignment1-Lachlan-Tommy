@@ -6,6 +6,11 @@ import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfWriter;
 
+
+
+
+
+import java.awt.print.PrinterException;
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
@@ -46,15 +51,32 @@ public class TextFieldPanel extends JPanel {
 
     public void openFile(File textFile)
     {
-        try{
-            FileReader reader = new FileReader(textFile);
-            while(reader.read() != -1){
-                textField.read(reader,null);
+        if(!textFile.getName().contains(".odt")){
+            try{
+                FileReader reader = new FileReader(textFile);
+                while(reader.read() != -1){
+                    textField.read(reader,null);
+                }
+                reader.close();
+            } catch(Exception ex){
+                ex.printStackTrace();
             }
-            reader.close();
-        } catch(Exception ex){
-            ex.printStackTrace();
         }
+        else {
+
+
+        }
+
+
+    }
+
+    public void printText() {
+        try{
+            textField.print();
+        }catch (PrinterException e){
+            e.printStackTrace();
+        }
+
     }
 
     public void clearField(){

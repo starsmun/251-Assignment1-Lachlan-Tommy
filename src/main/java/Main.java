@@ -1,10 +1,3 @@
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfString;
-import com.lowagie.text.pdf.PdfWriter;
-
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
@@ -99,7 +92,7 @@ public class Main extends JFrame implements ActionListener {
         } else if (source == newItem) {
             textField.clearField();
 
-        }else if (source == aboutItem) {
+        } else if (source == aboutItem) {
             JOptionPane.showMessageDialog(this,
                     "Lachlan - 21005784. \n" +
                             "Tommy - 21013898. \n" +
@@ -110,14 +103,17 @@ public class Main extends JFrame implements ActionListener {
         } else if (source == saveItem) {
             textField.saveToFile();
 
-        }else if (source == pdfConvertItem) {
+        } else if (source == printItem) {
+            textField.printText();
+
+        } else if (source == pdfConvertItem) {
             textField.savePDF();
 
         } else if (source == exitItem) {
             System.out.println("Quitting ...");
             System.exit(0);
 
-        }else if (source == searchItem) {
+        } else if (source == searchItem) {
             String searchQuery = JOptionPane.showInputDialog(this, "Search: ");
             if(searchQuery != null) {
                 ArrayList<Integer> results = textField.search(searchQuery);
