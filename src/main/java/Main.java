@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import org.fife.ui.rtextarea.*;
+import org.fife.ui.rsyntaxtextarea.*;
+
+
 
 public class Main extends JFrame implements ActionListener {
 
@@ -23,7 +27,10 @@ public class Main extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
 
         textField.setLayout(new GridLayout(0,1));
-        this.add(textField);
+
+        RTextScrollPane sp = new RTextScrollPane(textField);
+
+        this.add(sp);
 
         // Add a file menu with some menu items
         JMenu fileMenu = new JMenu("File");

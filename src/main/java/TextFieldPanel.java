@@ -5,7 +5,7 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfWriter;
-
+import org.fife.ui.rsyntaxtextarea.*;
 
 
 
@@ -20,10 +20,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TextFieldPanel extends JPanel {
-    public JTextPane textField = new JTextPane();
+    public RSyntaxTextArea textField = new RSyntaxTextArea();
 
     public TextFieldPanel(){
-        JScrollPane jsp = new JScrollPane(textField);
+
+        textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        textField.setCodeFoldingEnabled(true);
+
+        JScrollPane jsp = new JScrollPane (textField);
 
         JPopupMenu menuRC = new JPopupMenu();
         textField.setComponentPopupMenu(menuRC);
