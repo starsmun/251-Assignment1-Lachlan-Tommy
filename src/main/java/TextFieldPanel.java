@@ -24,7 +24,6 @@ public class TextFieldPanel extends JPanel {
 
     public TextFieldPanel(){
 
-        textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         textField.setCodeFoldingEnabled(true);
 
         JScrollPane jsp = new JScrollPane (textField);
@@ -55,7 +54,8 @@ public class TextFieldPanel extends JPanel {
 
     public void openFile(File textFile)
     {
-        if(!textFile.getName().contains(".odt")){
+
+        if(!textFile.getName().endsWith(".odt")){
             try{
                 FileReader reader = new FileReader(textFile);
                 while(reader.read() != -1){
@@ -71,7 +71,24 @@ public class TextFieldPanel extends JPanel {
 
         }
 
-
+        if (textFile.getName().endsWith(".java")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        }
+        else if (textFile.getName().endsWith(".py")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+        }else if (textFile.getName().endsWith(".cpp") | textFile.getName().endsWith(".c++") | textFile.getName().endsWith(".h")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+        }else if (textFile.getName().endsWith(".c")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
+        }else if (textFile.getName().endsWith(".cs")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSHARP);
+        }else if (textFile.getName().endsWith(".css")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
+        }else if (textFile.getName().endsWith(".csv")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSV);
+        }else if (textFile.getName().endsWith(".html")) {
+            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
+        }
     }
 
     public void printText() {
