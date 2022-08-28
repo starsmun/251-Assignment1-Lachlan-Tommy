@@ -7,9 +7,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
+
 import org.fife.ui.rtextarea.*;
-import org.fife.ui.rsyntaxtextarea.*;
+import org.yaml.snakeyaml.Yaml;
 
 
 
@@ -18,6 +22,8 @@ public class Main extends JFrame implements ActionListener {
     private static JMenuItem newItem, openItem, saveItem, printItem, addDate, searchItem, exitItem, aboutItem, pdfConvertItem;
     private static final JMenuBar menuBar = new JMenuBar();
     private static final TextFieldPanel textField = new TextFieldPanel();
+
+    private static Color highlight = Color.red;
 
     public Main() {
         super("Test Editor");
@@ -31,6 +37,8 @@ public class Main extends JFrame implements ActionListener {
         RTextScrollPane sp = new RTextScrollPane(textField);
 
         this.add(sp);
+
+        loadYaml();
 
         // Add a file menu with some menu items
         JMenu fileMenu = new JMenu("File");
@@ -86,6 +94,29 @@ public class Main extends JFrame implements ActionListener {
         new Main();
     }
 
+    public void loadYaml(){
+        try{
+            Yaml yaml = new Yaml();
+            InputStream inputStream = new FileInputStream("config.yml");
+            Map<String, Object> yamlMap = yaml.load(inputStream);
+
+            setHighlight((String) yamlMap.get("highlight-colour"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void setHighlight(String colour){
+        try {
+            Field field = Class.forName("java.awt.Color").getField(colour);
+            highlight = (Color)field.get(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void actionPerformed(ActionEvent event) {
         JComponent source = (JComponent) event.getSource();
         if (source == openItem) {
@@ -128,7 +159,7 @@ public class Main extends JFrame implements ActionListener {
                     for (int index : results) {
                         Highlighter highlighter = textField.textField.getHighlighter();
                         HighlightPainter painter =
-                                new DefaultHighlighter.DefaultHighlightPainter(Color.cyan);
+                                new DefaultHighlighter.DefaultHighlightPainter(highlight);
                         int p1 = index + searchQuery.length();
                         try {
                             highlighter.addHighlight(index, p1, painter);
