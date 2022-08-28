@@ -7,9 +7,6 @@ import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfWriter;
 import org.fife.ui.rsyntaxtextarea.*;
 
-
-
-
 import java.awt.print.PrinterException;
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
@@ -56,42 +53,47 @@ public class TextFieldPanel extends JPanel {
 
     }
 
-    public void openFile(File textFile)
+    public void openFile()
     {
-        //If file extension is .odt it will go to else statement otherwise it's a normal open
-        if(!textFile.getName().endsWith(".odt")){
-            try{
-                FileReader reader = new FileReader(textFile);
-                while(reader.read() != -1){
-                    textField.read(reader,null);
+        File textFile;
+        JFileChooser chooser = new JFileChooser("./");
+
+        int retVal = chooser.showOpenDialog(this); //Opens dialog to select item
+        if (retVal == JFileChooser.APPROVE_OPTION) {
+            textFile = chooser.getSelectedFile();
+
+            //If file extension is .odt it will go to else statement otherwise it's a normal open
+
+            if (!textFile.getName().endsWith(".odt")) {
+                try {
+                    FileReader reader = new FileReader(textFile);
+                    while (reader.read() != -1) {
+                        textField.read(reader, null);
+                    }
+                    reader.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-                reader.close();
-            } catch(Exception ex){
-                ex.printStackTrace();
             }
-        }
-        else {
 
-
-        }
-        //Set syntax depending on different file extensions
-        if (textFile.getName().endsWith(".java")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-        }
-        else if (textFile.getName().endsWith(".py")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
-        }else if (textFile.getName().endsWith(".cpp") | textFile.getName().endsWith(".c++") | textFile.getName().endsWith(".h")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
-        }else if (textFile.getName().endsWith(".c")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
-        }else if (textFile.getName().endsWith(".cs")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSHARP);
-        }else if (textFile.getName().endsWith(".css")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
-        }else if (textFile.getName().endsWith(".csv")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSV);
-        }else if (textFile.getName().endsWith(".html")) {
-            textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
+            //Set syntax depending on different file extensions
+            else if (textFile.getName().endsWith(".java")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+            } else if (textFile.getName().endsWith(".py")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
+            } else if (textFile.getName().endsWith(".cpp") | textFile.getName().endsWith(".c++") | textFile.getName().endsWith(".h")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CPLUSPLUS);
+            } else if (textFile.getName().endsWith(".c")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_C);
+            } else if (textFile.getName().endsWith(".cs")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSHARP);
+            } else if (textFile.getName().endsWith(".css")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
+            } else if (textFile.getName().endsWith(".csv")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSV);
+            } else if (textFile.getName().endsWith(".html")) {
+                textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
+            }
         }
     }
 
@@ -146,7 +148,7 @@ public class TextFieldPanel extends JPanel {
     }
 
     public void savePDF() {
-    //External library OpenPDF for pdf conversion
+        //External library OpenPDF for pdf conversion
         try{
             Document document = new Document();
             JFileChooser chooser = new JFileChooser("./");

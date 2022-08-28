@@ -1,8 +1,3 @@
-import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-import javax.swing.text.Highlighter.HighlightPainter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +5,12 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import javax.swing.text.Highlighter.HighlightPainter;
 
 import org.fife.ui.rtextarea.*;
 import org.yaml.snakeyaml.Yaml;
@@ -29,18 +29,16 @@ public class Main extends JFrame implements ActionListener {
         super("Test Editor");
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         this.setJMenuBar(menuBar);
+
+        loadYaml();
 
         textField.setLayout(new GridLayout(0,1));
 
         RTextScrollPane sp = new RTextScrollPane(textField);
-
         this.add(sp);
 
-        loadYaml();
-
-        // Add a file menu with some menu items
+        // File Menu with options //
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
@@ -68,6 +66,7 @@ public class Main extends JFrame implements ActionListener {
         exitItem.addActionListener(this);
         fileMenu.add(exitItem);
 
+        // Manage Menu with options //
         JMenu manageMenu = new JMenu("Manage");
         menuBar.add(manageMenu);
 
@@ -79,6 +78,7 @@ public class Main extends JFrame implements ActionListener {
         searchItem.addActionListener(this);
         manageMenu.add(searchItem);
 
+        // Help Menu with options //
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
 
@@ -94,6 +94,7 @@ public class Main extends JFrame implements ActionListener {
         new Main();
     }
 
+    // Loads Data from Yaml file
     public void loadYaml(){
         try{
             Yaml yaml = new Yaml();
@@ -107,6 +108,7 @@ public class Main extends JFrame implements ActionListener {
 
     }
 
+    // Reads string as Color and changes colour
     public void setHighlight(String colour){
         try {
             Field field = Class.forName("java.awt.Color").getField(colour);
@@ -117,41 +119,33 @@ public class Main extends JFrame implements ActionListener {
 
     }
 
+    // File menu options based on Source
     public void actionPerformed(ActionEvent event) {
         JComponent source = (JComponent) event.getSource();
-        if (source == openItem) {
-            JFileChooser chooser = new JFileChooser("./");
 
-            int retVal = chooser.showOpenDialog(this);
-            if (retVal == JFileChooser.APPROVE_OPTION) {
-                File myFile = chooser.getSelectedFile();
-                textField.openFile(myFile);
-            }
-        } else if (source == newItem) {
-            textField.clearField();
+       if (source == newItem) {
+           textField.clearField();
 
-        } else if (source == aboutItem) {
-            JOptionPane.showMessageDialog(this,
-                    "Lachlan - 21005784. \n" +
-                            "Tommy - 21013898. \n" +
-                            "This text editor was made for assignment one for the course 159251. ");
-        } else if (source == addDate) {
+       } else if (source == openItem) {
+           textField.openFile();
+
+       } else if (source == saveItem) {
+           textField.saveToFile();
+
+       } else if (source == printItem) {
+           textField.printText();
+
+       } else if (source == pdfConvertItem) {
+           textField.savePDF();
+
+       } else if (source == exitItem) {
+           System.out.println("Quitting ...");
+           System.exit(0);
+
+       } else if (source == addDate) {
             textField.addCurrentDate();
 
-        } else if (source == saveItem) {
-            textField.saveToFile();
-
-        } else if (source == printItem) {
-            textField.printText();
-
-        } else if (source == pdfConvertItem) {
-            textField.savePDF();
-
-        } else if (source == exitItem) {
-            System.out.println("Quitting ...");
-            System.exit(0);
-
-        } else if (source == searchItem) {
+       } else if (source == searchItem) {
             String searchQuery = JOptionPane.showInputDialog(this, "Search: ");
             if(searchQuery != null) {
                 ArrayList<Integer> results = textField.search(searchQuery);
@@ -174,9 +168,13 @@ public class Main extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "The following search could not be found: " + searchQuery);
                 }
             }
-        }
-
-        super.repaint();
+       } else if (source == aboutItem) {
+           JOptionPane.showMessageDialog(this,
+                   "Lachlan - 21005784. \n" +
+                           "Tommy - 21013898. \n" +
+                           "This text editor was made for assignment one for the course 159251. ");
+       }
+       super.repaint();
 
     }
 }
