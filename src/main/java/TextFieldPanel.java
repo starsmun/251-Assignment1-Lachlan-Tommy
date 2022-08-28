@@ -20,16 +20,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TextFieldPanel extends JPanel {
+    //Syntax text area
     public RSyntaxTextArea textField = new RSyntaxTextArea();
 
     public TextFieldPanel(){
 
+        //Enable code folding
         textField.setCodeFoldingEnabled(true);
 
         JScrollPane jsp = new JScrollPane (textField);
 
         JPopupMenu menuRC = new JPopupMenu();
         textField.setComponentPopupMenu(menuRC);
+
+        //Enable cut, copy, paste  actions
 
         Action copyOption = new DefaultEditorKit.CopyAction();
         copyOption.putValue(Action.NAME, "Copy");
@@ -54,7 +58,7 @@ public class TextFieldPanel extends JPanel {
 
     public void openFile(File textFile)
     {
-
+        //If file extension is .odt it will go to else statement otherwise it's a normal open
         if(!textFile.getName().endsWith(".odt")){
             try{
                 FileReader reader = new FileReader(textFile);
@@ -70,7 +74,7 @@ public class TextFieldPanel extends JPanel {
 
 
         }
-
+        //Set syntax depending on different file extensions
         if (textFile.getName().endsWith(".java")) {
             textField.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         }
@@ -142,7 +146,7 @@ public class TextFieldPanel extends JPanel {
     }
 
     public void savePDF() {
-
+    //External library OpenPDF for pdf conversion
         try{
             Document document = new Document();
             JFileChooser chooser = new JFileChooser("./");
@@ -155,6 +159,7 @@ public class TextFieldPanel extends JPanel {
                 document.add(new Paragraph(textField.getText()));
             }
             document.close();
+            //Catch errors with converting pdf etc.
         } catch (ExceptionConverter | DocumentException | IOException e) {
             System.err.println(e.getMessage());
         }
