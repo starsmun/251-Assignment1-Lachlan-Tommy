@@ -1,0 +1,14 @@
+Number of files metrics,Sun, 28 Aug 2022 19:00:51 NZST
+Module,FILES,Groovy,HTML,J,KT,XML
+Assignment1,6,0,0,2,0,1
+
+FileType,FILES
+Java,2
+Markdown,1
+Text,1
+XML,1
+YAML,1
+
+Project,FILES,Groovy,HTML,J,KT,MOD,XML
+project,6,0,0,2,0,1,1
+

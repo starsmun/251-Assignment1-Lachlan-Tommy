@@ -1,0 +1,10 @@
+Class count metrics,Sun, 28 Aug 2022 19:00:31 NZST
+Package,C,C(rec),Cp,Cp(rec),Ct,TC(rec)
+,2,2,2,2,0,0
+
+Module,C,Cp,Ct
+Assignment1,2,2,0
+
+Project,C,Cp,Ct
+project,2,2,0
+

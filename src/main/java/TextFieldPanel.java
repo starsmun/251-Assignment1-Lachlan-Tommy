@@ -49,7 +49,7 @@ public class TextFieldPanel extends JPanel {
     }
 
     public void paintComponents(Graphics g) {
-        super.paintComponents(g);
+        this.paintComponents(g);
 
     }
 

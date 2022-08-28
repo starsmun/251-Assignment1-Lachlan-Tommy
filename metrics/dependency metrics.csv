@@ -1,0 +1,8 @@
+Dependency metrics,Sun, 28 Aug 2022 19:00:39 NZST
+Class,Cyclic,Dcy,Dcy*,Dpt,Dpt*,PDcy,PDpt
+Main,0,1,1,0,0,1,0
+TextFieldPanel,0,0,0,1,1,0,1
+
+Package,Cyclic,PDcy,PDpt,PDpt*
+,0,0,0,1
+
